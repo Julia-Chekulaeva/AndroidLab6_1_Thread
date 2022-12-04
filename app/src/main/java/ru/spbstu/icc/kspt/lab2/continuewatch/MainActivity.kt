@@ -53,8 +53,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         secondsLeft = getFromSharedPreferences("Seconds left", secondsLeft)
         timeOfStart = System.currentTimeMillis()
+        var isRunning = true
         threadFromBackground = Thread {
-            while (!Thread.currentThread().isInterrupted) {
+            while (isRunning) {
                 try {
                     Thread.sleep(1000)
                     logMessage("is executing")
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 } catch (e: InterruptedException) {
+                    isRunning = false
                     logMessage("has been stopped")
                 }
             }
